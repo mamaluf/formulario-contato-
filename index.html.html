@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulário de Contato</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0f;
+      --surface: #16161a;
+      --border: rgba(255,255,255,0.08);
+      --accent: #c8a96e;
+      --accent-dim: rgba(200,169,110,0.12);
+      --text: #f0ece4;
+      --muted: #888;
+      --error: #e06c75;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(200,169,110,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(200,169,110,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem 2.8rem;
+      position: relative;
+      animation: fadeUp 0.6s ease forwards;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── ALERTA DE CONFIGURAÇÃO ── */
+    .config-alert {
+      background: rgba(200,169,110,0.08);
+      border: 1px dashed rgba(200,169,110,0.4);
+      border-radius: 12px;
+      padding: 1.1rem 1.3rem;
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+    .config-alert .icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .config-alert p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+    .config-alert strong { color: var(--accent); }
+    .config-alert code {
+      background: rgba(255,255,255,0.06);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      color: var(--text);
+    }
+
+    /* ── HEADER ── */
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+      padding: 0.25rem 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 2.2rem;
+    }
+
+    /* ── CAMPOS ── */
+    .form-group { margin-bottom: 1.2rem; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+      transition: color 0.2s;
+    }
+
+    .form-group:focus-within label { color: var(--accent); }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1.1rem;
+      color: var(--text);
+      font-size: 0.93rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+      appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder { color: #444; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      box-shadow: 0 0 0 3px rgba(200,169,110,0.08);
+    }
+
+    textarea { resize: vertical; min-height: 120px; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+    select option { background: #1e1e22; }
+
+    /* ── BOTÃO ── */
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--accent);
+      color: #0d0d0f;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* ── RODAPÉ ── */
+    .footer-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #444;
+      margin-top: 1.5rem;
+    }
+    .footer-note a { color: var(--muted); text-decoration: none; }
+    .footer-note a:hover { color: var(--accent); }
+
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.4rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="badge">Contato</div>
+  <h1>Fale conosco</h1>
+  <p class="subtitle">Preencha o formulário e retornaremos em breve.</p>
+
+  <!--
+    ════════════════════════════════════════
+    TROQUE  seu@email.com  pelo seu e-mail!
+    ════════════════════════════════════════
+  -->
+  <form action="https://formsubmit.co/avaliacaoneurosp@gmail.com" method="POST">
+
+    <!-- Campos ocultos de configuração do FormSubmit -->
+    <input type="hidden" name="_subject"  value="Nova mensagem do formulário de contato"/>
+    <input type="hidden" name="_language" value="pt"/>
+    <input type="hidden" name="_captcha"  value="false"/>
+    <!-- Redireciona após envio (opcional) -->
+    <!-- <input type="hidden" name="_next" value="https://seusite.com/obrigado.html"/> -->
+
+    <div class="form-group">
+      <div class="form-row">
+        <div>
+          <label for="fname">Nome</label>
+          <input type="text" id="fname" name="nome" placeholder="João" required/>
+        </div>
+        <div>
+          <label for="lname">Sobrenome</label>
+          <input type="text" id="lname" name="sobrenome" placeholder="Silva" required/>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" placeholder="joao@email.com" required/>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Telefone <span style="color:#555;font-size:0.7rem;">(opcional)</span></label>
+      <input type="tel" id="phone" name="telefone" placeholder="(11) 9 0000-0000"/>
+    </div>
+
+    <div class="form-group">
+      <label for="subject">Assunto</label>
+      <select id="subject" name="assunto" required>
+        <option value="">Selecione um assunto…</option>
+        <option>Informações gerais</option>
+        <option>Suporte técnico</option>
+        <option>Orçamento</option>
+        <option>Parceria</option>
+        <option>Outro</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="message">Mensagem</label>
+      <textarea id="message" name="mensagem" placeholder="Escreva sua mensagem aqui…" rows="5" required></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit">Enviar mensagem →</button>
+  </form>
+
+  <p class="footer-note">
+    Powered by <a href="https://formsubmit.co" target="_blank">FormSubmit.co</a> — sem servidor, sem cadastro
+  </p>
+</div>
+
+<script>
+  // Máscara de telefone simples
+  document.getElementById('phone').addEventListener('input', function () {
+    let v = this.value.replace(/\D/g, '');
+    if (v.length > 11) v = v.slice(0, 11);
+    if      (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+    else if (v.length > 6)  v = v.replace(/^(\d{2})(\d{4,5})(\d*)/, '($1) $2-$3');
+    else if (v.length > 2)  v = v.replace(/^(\d{2})(\d*)/, '($1) $2');
+    else if (v.length > 0)  v = '(' + v;
+    this.value = v;
+  });
+</script>
+</body>
+</html>
